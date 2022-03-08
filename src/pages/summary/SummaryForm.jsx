@@ -17,7 +17,7 @@ export const SummaryForm = () => {
         <span style={{ color: 'blue' }}>Terms and Conditions</span>
       </OverlayTrigger>
     </span>
-  );
+  )
 
   return (
     <Form>
