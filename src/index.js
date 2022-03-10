@@ -4,11 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Options } from './pages/entry/Options';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Options optionType='scoops' />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
