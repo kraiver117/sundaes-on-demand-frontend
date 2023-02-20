@@ -1,7 +1,11 @@
-import { render } from "@testing-library/react";
+import { render, RenderOptions } from "@testing-library/react";
+import { ReactElement, JSXElementConstructor } from "react";
 import { OrderDetailsProvider } from "../contexts/OrderDetails";
 
-const renderWithContext = (ui, options) =>
+const renderWithContext = (
+  ui: ReactElement<any, string | JSXElementConstructor<any>>,
+  options?: RenderOptions
+) =>
   render(ui, {
     wrapper: OrderDetailsProvider,
     ...options,
