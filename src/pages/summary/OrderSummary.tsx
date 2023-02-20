@@ -1,11 +1,12 @@
 import React from "react";
 import { SummaryForm } from "./SummaryForm";
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import { SetOrderPhase } from "../../interfaces/phase";
 
-export const OrderSummary = ({ setOrderPhase }) => {
+export const OrderSummary = ({ setOrderPhase }: SetOrderPhase) => {
   const [orderDetails] = useOrderDetails();
 
-  const scoopArray = Array.from(orderDetails.scoops.entries());
+  const scoopArray: string[][] = Array.from(orderDetails.scoops.entries());
   const scoopList = scoopArray.map(([key, value]) => (
     <li key={key}>
       {value} {key}
@@ -17,7 +18,7 @@ export const OrderSummary = ({ setOrderPhase }) => {
   let toppingsDisplay = null;
 
   if (hasToppings) {
-    const toppingsArray = Array.from(orderDetails.toppings.keys());
+    const toppingsArray: string[] = Array.from(orderDetails.toppings.keys());
     const toppingList = toppingsArray.map((key) => <li key={key}>{key}</li>);
 
     toppingsDisplay = (

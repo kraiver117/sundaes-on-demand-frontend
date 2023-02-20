@@ -1,8 +1,31 @@
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
-import { pricePerItem } from '../constants';
-import { formatCurrency } from '../utils/formatCurrency';
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import { pricePerItem } from "../constants";
+import { formatCurrency } from "../utils/formatCurrency";
 
-const OrderDetails = createContext();
+type Totals = {
+  scoops: string;
+  toppings: string;
+  grandTotal: string;
+};
+
+type OptionType = "scoops" | "toppings";
+
+type OptionsCount = {
+  scoops: Map<any, any>;
+  toppings: Map<any, any>;
+};
+
+export type OrderDetailsContext = [
+  orderDetails: { totals: Totals } & OptionsCount,
+  updateItemCount: (
+    itemName: string,
+    newItemCount: number,
+    optionType: OptionType
+  ) => void,
+  resetOrder: () => void
+];
+
+const OrderDetails = createContext<OrderDetailsContext | null>(null);
 
 // Create custom hook to check whether we're inside a provider
 export function useOrderDetails() {
@@ -10,14 +33,17 @@ export function useOrderDetails() {
 
   if (!context) {
     throw new Error(
-      'useOrderDetails must be used within an OrderDetailsProvider'
+      "useOrderDetails must be used within an OrderDetailsProvider"
     );
   }
 
   return context;
 }
 
-function calculateSubtotal(optionType, optionsCounts) {
+function calculateSubtotal(
+  optionType: OptionType,
+  optionsCounts: OptionsCount
+) {
   let optionCount = 0;
 
   for (const count of optionsCounts[optionType].values()) {
@@ -27,7 +53,7 @@ function calculateSubtotal(optionType, optionsCounts) {
   return optionCount * pricePerItem[optionType];
 }
 
-export function OrderDetailsProvider(props) {
+export function OrderDetailsProvider(props: any) {
   const [optionCounts, setOptionCounts] = useState({
     scoops: new Map(),
     toppings: new Map(),
@@ -41,8 +67,8 @@ export function OrderDetailsProvider(props) {
   });
 
   useEffect(() => {
-    const scoopsSubtotal = calculateSubtotal('scoops', optionCounts);
-    const toppingsSubtotal = calculateSubtotal('toppings', optionCounts);
+    const scoopsSubtotal = calculateSubtotal("scoops", optionCounts);
+    const toppingsSubtotal = calculateSubtotal("toppings", optionCounts);
     const grandTotal = scoopsSubtotal + toppingsSubtotal;
 
     setTotals({
@@ -53,7 +79,11 @@ export function OrderDetailsProvider(props) {
   }, [optionCounts]);
 
   const value = useMemo(() => {
-    function updateItemCount(itemName, newItemCount, optionType) {
+    function updateItemCount(
+      itemName: string,
+      newItemCount: string,
+      optionType: OptionType
+    ): void {
       const newOptionCounts = { ...optionCounts };
 
       // update option count for this item with the new value
@@ -72,7 +102,7 @@ export function OrderDetailsProvider(props) {
 
     // getter: object containing option counts for scoops and toppings, subtotal and total
     // setter: update option counts
-    return [{ ...optionCounts, totals }, updateItemCount, resetOrder];
+    return [{ ...optionCounts, totals }, updateItemCount, resetOrder] as const;
   }, [optionCounts, totals]);
 
   return (

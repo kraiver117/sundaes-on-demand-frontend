@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Row } from 'react-bootstrap';
-import { ScoopOption } from './ScoopOption';
-import { ToppingOption } from './ToppingOption';
-import { AlertBanner } from '../common/AlertBanner';
-import { pricePerItem } from '../../constants';
-import { useOrderDetails } from '../../contexts/OrderDetails';
-import { formatCurrency } from '../../utils/formatCurrency';
+import React, { useEffect, useState, FC } from "react";
+import axios from "axios";
+import { Row } from "react-bootstrap";
+import { ScoopOption } from "./ScoopOption";
+import { ToppingOption } from "./ToppingOption";
+import { AlertBanner } from "../common/AlertBanner";
+import { pricePerItem } from "../../constants";
+import { useOrderDetails } from "../../contexts/OrderDetails";
+import { formatCurrency } from "../../utils/formatCurrency";
 
-export const Options = ({ optionType }) => {
-  const [items, setItems] = useState([]);
+type OptionsProps = {
+  optionType: "scoops" | "toppings";
+};
+
+type Items = {
+  name: string;
+  imagePath: string;
+};
+
+export const Options: FC<OptionsProps> = ({ optionType }) => {
+  const [items, setItems] = useState<Items[]>([]);
   const [error, setError] = useState(false);
   const [orderDetails, updateItemCount] = useOrderDetails();
 
@@ -29,7 +38,7 @@ export const Options = ({ optionType }) => {
     return <AlertBanner />;
   }
 
-  const ItemComponent = optionType === 'scoops' ? ScoopOption : ToppingOption;
+  const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption;
   const title = optionType[0].toUpperCase() + optionType.slice(1).toLowerCase();
 
   const optionItems = items.map((item) => (

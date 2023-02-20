@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, FC, FormEvent, ChangeEvent } from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { OptionsProps } from "../../interfaces/entry";
 
-export const ScoopOption = ({ name, imagePath, updateItemCount }) => {
+export const ScoopOption: FC<OptionsProps> = ({
+  name,
+  imagePath,
+  updateItemCount,
+}) => {
   const [isValid, setIsValid] = useState(true);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const currentValue = e.target.value;
 
     // make sure we are using a number and not a string
     const currentValueFloat = parseFloat(currentValue);
     const valueIsValid =
-      0 <= currentValue &&
-      currentValue <= 10 &&
+      0 <= currentValueFloat &&
+      currentValueFloat <= 10 &&
       Math.floor(currentValueFloat) === currentValueFloat;
 
     // validate
     setIsValid(valueIsValid);
 
     // only update context if the value is valid
-    if (valueIsValid) updateItemCount(name, e.target.value);
+    if (valueIsValid) updateItemCount(name, Number(e.target.value));
   };
 
   return (

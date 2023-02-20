@@ -1,5 +1,5 @@
-import { render, screen } from "../../../test-utils/testing-library-utils";
-import { OrderConfirmation } from "../../confirmation/OrderConfirmation";
+import { render, screen, act } from "../../../test-utils/testing-library-utils";
+import { OrderConfirmation } from "../OrderConfirmation";
 import { server } from "../../../mocks/server";
 import { rest } from "msw";
 

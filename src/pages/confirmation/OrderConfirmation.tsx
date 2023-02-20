@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { AlertBanner } from "../common/AlertBanner";
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import { Phase } from "../../interfaces/phase";
+import { SetOrderPhase } from "../../interfaces/phase";
+import { OrderDetailsContext } from "../../contexts/OrderDetails";
 
-export const OrderConfirmation = ({ setOrderPhase }) => {
+export const OrderConfirmation: FC<SetOrderPhase> = ({ setOrderPhase }) => {
   const [, , resetOrder] = useOrderDetails();
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [error, setError] = useState(false);
+  const [orderNumber, setOrderNumber] = useState<number | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     axios

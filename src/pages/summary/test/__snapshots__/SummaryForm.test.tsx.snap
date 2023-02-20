@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Summary Form correctly 1`] = `
+<DocumentFragment>
+  <form
+    class=""
+  >
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input"
+          id="terms-and-conditions"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="terms-and-conditions"
+          title=""
+        >
+          <span>
+            I agree to
+            <span
+              style="color: blue;"
+            >
+              Terms and Conditions
+            </span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="submit"
+    >
+      Confirm Order
+    </button>
+  </form>
+</DocumentFragment>
+`;
